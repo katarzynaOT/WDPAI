@@ -1,1 +1,72 @@
 h1 { color: blue; }
+
+nav
+{
+    background-color: #eaa6a6;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+nav > ul
+{
+    display: flex;
+    gap: 2rem;
+}
+
+body 
+{
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+ 
+
+aside
+{
+    background-color: #b8e9e7;
+    /**padding: 10px;
+    width: 200px;
+    float: left;**/
+}
+
+main
+{
+    background-color: rgb(234, 200, 156);
+
+    /**margin-left: 220px;
+    padding: 10px;**/
+}
+
+.container
+{
+    background-color: #a0e7a5;
+    /**text-align: center;
+    padding: 10px;
+    clear: both;**/
+
+    display: grid;
+    grid-template-columns: 20% 80%;
+    height: calc(100vh - 5rem); /* odejmujemy wysokosc nawigacji ( tego paska na gorze_) */
+}   
+
+@media screen and (max-width: 480px) { 
+    .container {
+        grid-template-columns: 1fr; /* jedna kolumna */
+    }
+ 
+    aside {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

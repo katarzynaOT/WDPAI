@@ -1,5 +1,5 @@
 <?php
-
+// W kontrolerach bedzie wszytsko (powiazanie z baza itd.)
 
 class AppController {
 
@@ -11,7 +11,7 @@ class AppController {
                  
         if(file_exists($templatePath)){
             // ["message" => "Błędne hasło!"]
-            extract($variables);
+            extract($variables); // wyodrebnienie zmiennych z tablicy asocjacyjnej -> bedzie na kolokwium
             // $message = "Błędne hasło!"
             // echo $message
 

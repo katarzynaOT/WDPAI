@@ -9,5 +9,34 @@
 </head>
 <body>
     <h1>Dashboard</h1>
+
+    <nav>
+        <p>LOGO</p>
+        <ul>
+            <li>dashboard</li>
+            <li>users</li>
+            <li>reports</li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <aside>
+            <p>MOJ TOOLBAR</p>
+        </aside>
+        <main>
+            <h1>cards!</h1>
+            <!-- TODO display list of cards -->
+            <ul>
+             <?php foreach($items as $key=>$value): ?> 
+             <li>
+                <?php echo $value['title']; ?>
+            <img src="<?= $value['imageUrlPath']; ?>">
+            </li> 
+             <?php endforeach; ?> 
+             </ul>
+        </main>
+    </div>
+
+
 </body>
 </html>

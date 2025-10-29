@@ -7,7 +7,8 @@ require_once 'src/controllers/DashboardController.php';
 
 class Routing {
 
-    public static $routes = [
+    public static $routes = [ //statyczna tablica do powiazania sciezek z kontrolerami
+        // TODO - wymyslic system, ktory by przekierowywal np. /dashboard/123, nie tylko /dashboard -> zrobic to przez $path->REGEX
         'login' => [
             'controller' => 'SecurityController',
             'action' => 'login'
@@ -24,6 +25,7 @@ class Routing {
 
     public static function run(string $path) {
         switch ($path) {        //na podstawie sciezki sprawdzamy jaki HTML zwrocic
+            // TODO: singleton tu uzyc
             case 'dashboard':
                 // TODO connect with database
                 // get elements to present on dashboard
