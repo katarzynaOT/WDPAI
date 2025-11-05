@@ -27,12 +27,12 @@
             <h1>cards!</h1>
             <!-- TODO display list of cards -->
             <ul>
-             <?php foreach($items as $key=>$value): ?> 
-             <li>
-                <?php echo $value['title']; ?>
-            <img src="<?= $value['imageUrlPath']; ?>">
-            </li> 
-             <?php endforeach; ?> 
+                <?php foreach($cards as $key=>$value): ?>
+                    <li>
+                        <?php echo $value['title']; ?>
+                        <img src="<?= $value['imageUrlPath']; ?>">
+                    </li>
+                <?php endforeach; ?>
              </ul>
         </main>
     </div>
