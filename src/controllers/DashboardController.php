@@ -1,6 +1,8 @@
 <?php
 
 require_once 'AppController.php'; // załączenie AppControllera
+require_once __DIR__.'/../repository/userRepository.php'; //załączenie UserRepository
+
 class DashboardController extends AppController {
 
     public function index() {
@@ -41,6 +43,12 @@ class DashboardController extends AppController {
                 'href' => '/cards/ten-of-hearts'
             ],
         ];
+
+
+        $userRepository = new UserRepository();
+        $users = $userRepository->getUsers();
+        var_dump($users); //sprawdzamy czy dziala
+
 
         //return $this->render("dashboard"); 
         //tablica asosjacyjna przeslana przez render i wyswietlajaca karty
