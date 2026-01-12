@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  nginx: #nginx/web - serwer http
+    build:
+      context: ./docker/nginx #ścieżka do Dockera
+    ports:
+      - "8000:80"
+    volumes: #wolumeny - mapowanie katalogów z hosta do kontenera 
+      - .:/app
+    depends_on: #kontener nginx/web uruchomi się po php
+      - php
+    networks:
+      - pg-network
+
+  php: #php-fpm - interpreter PHP
+    build:
+      context: ./docker/php
+    volumes:
+      #TODO: zmienić na konkretne katalogi zamiast całego projektu
+      - .:/app #kontener PHP ma dostep do całego projektu
+    networks:
+      - pg-network
+
+  db: #postgresql
+    build:
+      context: ./docker/db
+    volumes:
+      - ./docker/db:/docker-entrypoint-initdb.d
+    ports:
+      - "5433:5432"
+    networks:
+      - pg-network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    networks:
+      - pg-network
+
+networks:
+  pg-network:
