@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3'
 
 services:
   nginx: #nginx/web - serwer http
@@ -10,6 +10,8 @@ services:
       - .:/app
     depends_on: #kontener nginx/web uruchomi się po php
       - php
+    env_file:
+      - config.env
     networks:
       - pg-network
 
@@ -19,6 +21,8 @@ services:
     volumes:
       #TODO: zmienić na konkretne katalogi zamiast całego projektu
       - .:/app #kontener PHP ma dostep do całego projektu
+    env_file:
+      - config.env
     networks:
       - pg-network
 
@@ -26,7 +30,7 @@ services:
     build:
       context: ./docker/db
     volumes:
-      - ./docker/db:/docker-entrypoint-initdb.d
+      - ./docker/db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5433:5432"
     networks:

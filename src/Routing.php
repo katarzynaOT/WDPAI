@@ -1,5 +1,7 @@
 <?php
 
+#require_once 'src/controllers/DefaultController.php';
+
 class Router
 {
     private static array $routes = [
@@ -19,9 +21,9 @@ class Router
 
     public static function run(string $path): void
     {
-        $method = $_SERVER['REQUEST_METHOD'];
+        $method = $_SERVER['REQUEST_METHOD'];        # 'GET' lub 'POST'
 
-        if (!isset(self::$routes[$method][$path])) {
+        if (!isset(self::$routes[$method][$path])) { # brak trasy
             http_response_code(404);
             echo '404 Not Found';
             return;
@@ -29,24 +31,23 @@ class Router
 
         [$controllerName, $methodName] = explode('@', self::$routes[$method][$path]);
 
-        $controllerPath = __DIR__ . "/Controllers/$controllerName.php";
 
-        if (!file_exists($controllerPath)) {
+        // Załaduj plik kontrolera
+        $controllerFile = __DIR__ . "/controllers/$controllerName.php";
+        if (!file_exists($controllerFile)) {
             http_response_code(500);
             echo "Controller not found";
             return;
         }
+        require_once $controllerFile;
 
-        require_once $controllerPath;
-
+        // Załaduj i wywołaj metodę kontrolera
         $controller = new $controllerName();
-
         if (!method_exists($controller, $methodName)) {
             http_response_code(500);
             echo "Method not found";
             return;
         }
-
         $controller->$methodName();
     }
 }
