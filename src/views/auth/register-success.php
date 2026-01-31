@@ -1,0 +1,1 @@
+<h2>Rejestracja zakonczona sukcesem</h2>

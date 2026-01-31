@@ -23,16 +23,36 @@ class AppController
     protected function redirect(string $path): void
     {
         header("Location: /$path");
-        exit;
+        exit();
     }
 
     protected function isLogged(): bool
     {
-        return isset($_SESSION['user']);
+        if (session_status() === PHP_SESSION_NONE) 
+            return false;
+    
+        return isset($_SESSION['user_id']);
+    }
+
+    protected function requireLogin(): void
+    {
+        if (!$this->isLogged()) {
+            $this->redirect('login');
+            exit();
+        }
     }
 
     protected function getUser(): ?array
     {
-        return $_SESSION['user'] ?? null;
+        if (isset($_SESSION['user_id'])) {
+            return [
+                'id' => $_SESSION['user_id'],
+                'email' => $_SESSION['user_email'],
+                'role' => $_SESSION['user_role'],
+                'first_name' => $_SESSION['user_first_name'],
+                'last_name' => $_SESSION['user_last_name']
+            ];
+        }
+        return null;
     }
 }

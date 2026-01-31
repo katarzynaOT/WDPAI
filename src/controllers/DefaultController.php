@@ -6,7 +6,7 @@ class DefaultController extends AppController
 {
     public function index(): void
     {
-        echo 'Routing działa!';
+        echo 'DEFAULT CONTROLLER INDEX';
         $this->render('home');
     }
 }

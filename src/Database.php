@@ -1,9 +1,9 @@
 <?php
 
-use PDO;
-use PDOException;
+//use PDO;
+//use PDOException;
 
-require_once 'config.php';
+//require_once '/../config.env';
 
 class Database
 {
@@ -31,6 +31,7 @@ class Database
                         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                     ]
                 );
+                //echo "Connected to database successfully!<br>";
             } catch (PDOException $e) {
                 die('Database connection error: ' . $e->getMessage());
             }

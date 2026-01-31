@@ -159,6 +159,8 @@ INSERT INTO subjects (name, category) VALUES
     ('Geografia', 'Przyrodnicze')
 ON CONFLICT (name) DO NOTHING;
 
+INSERT INTO users (email, password, first_name, last_name, role) 
+VALUES ('test@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Jan', 'Kowalski', 'student');
 
 
 CREATE OR REPLACE FUNCTION get_account_age(user_id_param INT)
