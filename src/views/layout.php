@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Aplikacja korepetycje</title>
+    <title>Tututor</title>
 </head>
 <body>
 

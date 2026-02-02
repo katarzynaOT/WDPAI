@@ -1,5 +1,4 @@
 <?php
-// src/controllers/ProfileController.php
 
 require_once __DIR__ . '/../AppController.php';
 require_once __DIR__ . '/../../services/ProfileService.php';
@@ -41,13 +40,10 @@ abstract class ProfileController extends AppController
     
     public function updateBasic(): void
     {
+        $this->requirePost();   
+
         if (!$this->isLogged()) {
             $this->redirect('login');
-            return;
-        }
-        
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('profile/basic');
             return;
         }
         
@@ -88,13 +84,10 @@ abstract class ProfileController extends AppController
     
     public function updatePassword(): void
     {
+        $this->requirePost();
+
         if (!$this->isLogged()) {
             $this->redirect('login');
-            return;
-        }
-        
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('profile/password');
             return;
         }
         

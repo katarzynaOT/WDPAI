@@ -6,7 +6,7 @@ class DefaultController extends AppController
 {
     public function index(): void
     {
-        echo 'DEFAULT CONTROLLER INDEX';
+        echo 'DEFAULT CONTROLLER INDEX - aa';
         $this->render('home');
     }
 }

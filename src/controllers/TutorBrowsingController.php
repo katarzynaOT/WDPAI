@@ -71,6 +71,11 @@ class TutorBrowsingController extends AppController
             return;
         }
 
+        if ($_SESSION['user_role'] !== 'student') {
+            $this->redirect('dashboard'); // TODO: lub inna strona
+            return;
+        }
+
         try {
             // Retrieve tutor profile with details
             $profile = $this->tutorSearchService->getTutorById($tutorId);

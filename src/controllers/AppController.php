@@ -26,6 +26,28 @@ class AppController
         exit();
     }
 
+    protected function requirePost(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') 
+        {
+            http_response_code(405); // Method Not Allowed
+            $this->render('errors/405');
+            //$this->redirect('');
+            exit();
+        }
+    }
+
+    protected function requireGet(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'GET') 
+        {
+            http_response_code(405); // Method Not Allowed
+            $this->render('errors/405');
+            //$this->redirect('');
+            exit();
+        }
+    }
+
     protected function isLogged(): bool
     {
         if (session_status() === PHP_SESSION_NONE) 

@@ -42,15 +42,10 @@ class AuthorizationController extends AppController
 
     public function registerStudent(): void
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') 
-        {
-            $this->redirect('register/student'); //TODO: czy student potrzebne?
-            return;
-        }
+        $this->requirePost();
         
         // Pobierz i wyczyść dane
-        $formData = $this->getSanitizedPostData(); // TODO: czy potrzebne?
-
+        $formData = $this->getSanitizedPostData(); 
         try {
             // Serwis rejestracji studenta
             $user = $this->registrationService->registerStudent($formData); 
@@ -72,11 +67,7 @@ class AuthorizationController extends AppController
 
     public function registerTutor() : void
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') 
-            {
-            $this->redirect('register/tutor');
-            return;
-        }
+        $this->requirePost();
         
         $formData = $this->getSanitizedPostData();
         
@@ -98,13 +89,7 @@ class AuthorizationController extends AppController
 
     public function login(): void 
     {
-        // Tylko POST (na GET same widoki)
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') 
-        {
-            //http_response_code(405); // Method Not Allowed - tylko POST dla /login
-            $this->redirect('login');
-            return;
-        }
+        $this->requirePost();
 
         // Sprawdź czy dane POST istnieją/są przesłane
         if (empty($_POST['email']) || empty($_POST['password'])) 
@@ -216,16 +201,14 @@ class AuthorizationController extends AppController
     {
         switch ($role) {
             case 'student':
-                $this->redirect('student/dashboard');
-                break;
             case 'tutor':
-                $this->redirect('tutor/dashboard');
+                $this->redirect('dashboard');
                 break;
             case 'admin':
                 $this->redirect('admin/dashboard');
                 break;
             default:
-                $this->redirect('dashboard'); // fallback
+                $this->redirect(''); // fallback
         }
     }
 

@@ -45,11 +45,11 @@ Router::get('logout', 'AuthorizationController@logout');
 #Router::post('comment/add', 'TutorController@addComment');
 
 // DASHBOARD
-Router::get('dashboard', 'dashboard/StudentDashboardController@index');
-Router::get('student/dashboard', 'dashboard/StudentDashboardController@index');
-Router::get('tutor/dashboard', 'dashboard/TutorDashboardController@index');
+Router::get('dashboard', 'DashboardController@index'); // podział na role w kontrolerze
 
-// PROFILE
+// PROFILE'
+ Router::get('profile', 'profile/StudentProfileController@edit');
+
 Router::get('student/profile', 'profile/StudentProfileController@edit');
 Router::post('student/profile/update', 'profile/StudentProfileController@update');
 
@@ -57,16 +57,20 @@ Router::get('tutor/profile', 'profile/TutorProfileController@edit');
 Router::post('tutor/profile/update', 'profile/TutorProfileController@update');
 
 // TUTOR BROWSING
-Router::get('student/tutors', 'TutorBrowsingController@list');
+Router::get('tutors', 'TutorBrowsingController@list');
 Router::get('tutor/:id', 'TutorBrowsingController@profile');
 
 // BOOKING
 Router::get('booking/new', 'BookingController@create');
 Router::post('booking/store', 'BookingController@store');
-Router::get('student/bookings', 'BookingController@listStudentBookings');
-Router::get('tutor/bookings', 'BookingController@listTutorBookings');
+
+Router::get('bookings', 'BookingController@listBookings'); // podział na role w kontrolerze
+
 Router::post('booking/confirm', 'BookingController@confirm');
 Router::post('booking/cancel', 'BookingController@cancel');
+
+// ERROR
+Router::get('error/405', 'ErrorController@show405');
 
 // RUN
 Router::run($path);

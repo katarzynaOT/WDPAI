@@ -1,5 +1,4 @@
 <?php
-// src/controllers/StudentProfileController.php
 
 require_once __DIR__ . '/ProfileController.php';
 
@@ -7,7 +6,9 @@ class StudentProfileController extends ProfileController
 {
     public function edit(): void
     {
-        if (!$this->isLogged() || $_SESSION['user_role'] !== 'student') {
+        // AUTORYZATION: Zalogowany jako student
+        if (!$this->isLogged() || $_SESSION['user_role'] !== 'student') 
+        {
             $this->redirect('login');
             return;
         }
@@ -33,13 +34,10 @@ class StudentProfileController extends ProfileController
 
     public function update(): void
     {
+        $this->requirePost();
+
         if (!$this->isLogged() || $_SESSION['user_role'] !== 'student') {
             $this->redirect('login');
-            return;
-        }
-        
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('student/profile');
             return;
         }
         

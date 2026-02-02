@@ -1,9 +1,24 @@
 <?php
 
-require_once __DIR__ . '/../AppController.php';
+require_once 'AppController.php';
 
-class BaseDashboardController extends AppController
+class DashboardController extends AppController
 {
+    public function index(): void
+    {
+        $this->requireLogin();
+
+        $userRole = $_SESSION['user_role'] ?? null;
+
+        if ($userRole === 'student') {
+            $this->renderDashboard('student/dashboard', 'student');
+        } elseif ($userRole === 'tutor') {
+            $this->renderDashboard('tutor/dashboard', 'tutor');
+        } else {
+            $this->redirect('');
+        }
+    }
+
     protected function renderDashboard(string $centerView, string $role, array $params = []): void
     {
         // Top panel
@@ -34,4 +49,6 @@ class BaseDashboardController extends AppController
 
         $this->render('dashboard/layout', $params);
     }
+
+
 }

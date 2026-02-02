@@ -53,13 +53,10 @@ class BookingController extends AppController
 
     public function store(): void
     {
+        $this->requirePost();
+
         if (!$this->isLogged() || $_SESSION['user_role'] !== 'student') {
             $this->redirect('login');
-            return;
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('student/tutors');
             return;
         }
 
@@ -111,6 +108,21 @@ class BookingController extends AppController
                 'posted_data' => $_POST,
                 'page' => 'booking'
             ]);
+        }
+    }
+
+    public function listBookings(): void
+    {
+        $this->requireLogin();
+
+        $userRole = $_SESSION['user_role'] ?? null;
+
+        if ($userRole === 'student') {
+            $this->listStudentBookings();
+        } elseif ($userRole === 'tutor') {
+            $this->listTutorBookings();
+        } else {
+            $this->redirect('');
         }
     }
 
@@ -185,13 +197,10 @@ class BookingController extends AppController
 
     public function confirm(): void
     {
+        $this->requirePost();
+
         if (!$this->isLogged() || $_SESSION['user_role'] !== 'tutor') {
             $this->redirect('login');
-            return;
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('tutor/bookings');
             return;
         }
 
@@ -224,13 +233,10 @@ class BookingController extends AppController
 
     public function cancel(): void
     {
+        $this->requirePost();
+
         if (!$this->isLogged()) {
             $this->redirect('login');
-            return;
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('student/bookings');
             return;
         }
 

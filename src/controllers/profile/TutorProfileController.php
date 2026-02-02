@@ -44,13 +44,10 @@ class TutorProfileController extends ProfileController
 
     public function update(): void
     {
+        $this->requirePost();
+
         if (!$this->isLogged() || $_SESSION['user_role'] !== 'tutor') {
             $this->redirect('login');
-            return;
-        }
-        
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('tutor/profile');
             return;
         }
         
