@@ -1,8 +1,10 @@
-# Platofrma dla korepetytorów
+# Platofrma do korepetycji
 
-Aplikacja internetowa łącząac uczniów i korepetytorów.
+Aplikacja internetowa łącąca uczniów i korepetytorów.
 
-** Instalacja i uruchomienie **
+**Instalacja i uruchomienie**
+
+Aplikacja uruchamiana jest w środowisku kontenerowym Docker z użyciem docker-compose.
 
 # 1. Architektura + struktura (controller, repo, service, models, views)
 
@@ -12,15 +14,16 @@ Aplikacja internetowa łącząac uczniów i korepetytorów.
 
 # 4. Użytkownicy (Role, sesja, uprawnienia, autoryzacja)
 
+1. **Student** - uczeń   
+2. **Tutor** - korepetytor
+
 # 5. Funkcjonalność
 
 # 6. Bezpieczenstwo
 
-** API/Routing** przy postamanie
+**API/Routing** przy postamanie
 
 # Reszta
-
-Aplikacja uruchamiana jest w środowisku kontenerowym Docker z użyciem docker-compose.
 
 Aplikacja wykorzystuje klasę Database opartą o wzorzec Singleton, zapewniającą jedno współdzielone połączenie PDO z bazą PostgreSQL. Konfiguracja połączenia jest dostosowana do środowiska kontenerowego Docker.
 
