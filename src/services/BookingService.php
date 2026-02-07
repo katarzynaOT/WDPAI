@@ -17,39 +17,28 @@ class BookingService
         $this->tutorRepository = new TutorRepository();
     }
 
-    /**
-     * Request new booking (lesson)
-     * @param int $studentProfileId ID from student_profiles table
-     * @param int $tutorProfileId ID from tutor_profiles table
-     */
     public function requestBooking(int $studentProfileId, int $tutorProfileId, string $scheduledAt, int $durationMinutes = 60, ?string $notes = null): int
     {
-        // Validate student and tutor profiles exist
+        // Walidacja danych wejściowych
         $studentProfile = $this->studentRepository->findById($studentProfileId);
         $tutorProfile = $this->tutorRepository->findById($tutorProfileId);
 
         if (!$studentProfile || !$tutorProfile) {
-            throw new Exception('Student lub tutor nie został znaleziony');
+            throw new Exception('Student lub tutor nie znaleziony');
         }
 
-        // Check if already has active booking
-        if ($this->bookingRepository->hasActiveBooking($studentProfileId, $tutorProfileId)) {
-            throw new Exception('Masz już aktywną rezerwację z tym tutorem');
-        }
-
-        // Validate scheduled_date is in future
+        // Walidacja daty i czasu
         $scheduledTime = new DateTime($scheduledAt);
         $now = new DateTime();
         if ($scheduledTime <= $now) {
             throw new Exception('Lekcja musi być zaplanowana na przyszłość');
         }
 
-        // Validate duration
         if ($durationMinutes < 15 || $durationMinutes > 240) {
             throw new Exception('Czas trwania musi być między 15 a 240 minut');
         }
 
-        // Create booking with pending status
+        // TWORZENIE REZERWACJI
         $bookingId = $this->bookingRepository->create([
             'student_id' => $studentProfileId,
             'tutor_id' => $tutorProfileId,
@@ -62,9 +51,6 @@ class BookingService
         return $bookingId;
     }
 
-    /**
-     * Confirm booking (tutor accepts)
-     */
     public function confirmBooking(int $bookingId, int $tutorProfileId): void
     {
         $booking = $this->bookingRepository->findById($bookingId);
@@ -84,9 +70,6 @@ class BookingService
         $this->bookingRepository->updateStatus($bookingId, 'scheduled');
     }
 
-    /**
-     * Cancel booking
-     */
     public function cancelBooking(int $bookingId, int $userProfileId, string $userRole): void
     {
         $booking = $this->bookingRepository->findById($bookingId);
@@ -95,7 +78,7 @@ class BookingService
             throw new Exception('Rezerwacja nie została znaleziona');
         }
 
-        // Only student or tutor of this booking can cancel
+        // Tylko właściciele rezerwacji mogą ją anulować
         $isStudent = $userRole === 'student' && $booking['student_id'] == $userProfileId;
         $isTutor = $userRole === 'tutor' && $booking['tutor_id'] == $userProfileId;
         
@@ -108,15 +91,12 @@ class BookingService
         }
 
         if ($booking['status'] === 'completed') {
-            throw new Exception('Nie możesz anulować ukończoną lekcję');
+            throw new Exception('Nie można anulować ukończoną lekcję');
         }
 
         $this->bookingRepository->cancel($bookingId, $userProfileId);
     }
 
-    /**
-     * Mark booking as completed
-     */
     public function completeBooking(int $bookingId, int $tutorProfileId): void
     {
         $booking = $this->bookingRepository->findById($bookingId);
@@ -136,33 +116,48 @@ class BookingService
         $this->bookingRepository->updateStatus($bookingId, 'completed');
     }
 
-    /**
-     * Get booking details
-     */
+    // GETTERY
+
     public function getBooking(int $bookingId): ?array
     {
         return $this->bookingRepository->findById($bookingId);
     }
 
-    /**
-     * Get student's bookings
-     */
+    // Pobierz lekcję z weryfikacją uprawnień użytkownika
+    public function getBookingForUser(int $bookingId, int $userId, string $userRole): array
+    {
+        $booking = $this->getBooking($bookingId);
+        if (!$booking) {
+            throw new Exception('Lekcja nie została znaleziona.');
+        }
+
+        if ($userRole === 'student') {
+            $studentProfile = $this->studentRepository->findByUserId($userId);
+            if (!$studentProfile || !isset($studentProfile['id']) || $booking['student_id'] !== $studentProfile['id']) {
+                throw new Exception('Nie masz uprawnień do wyświetlenia tej lekcji.');
+            }
+        } elseif ($userRole === 'tutor') {
+            $tutorProfile = $this->tutorRepository->findByUserId($userId);
+            if (!$tutorProfile || !isset($tutorProfile['id']) || $booking['tutor_id'] !== $tutorProfile['id']) {
+                throw new Exception('Nie masz uprawnień do wyświetlenia tej lekcji.');
+            }
+        } else {
+            throw new Exception('Nieznana rola użytkownika.');
+        }
+
+        return $booking;
+    }
+
     public function getStudentBookings(int $studentId): array
     {
         return $this->bookingRepository->findByStudentId($studentId);
     }
 
-    /**
-     * Get tutor's bookings
-     */
     public function getTutorBookings(int $tutorId): array
     {
         return $this->bookingRepository->findByTutorId($tutorId);
     }
 
-    /**
-     * Get upcoming bookings for student
-     */
     public function getUpcomingBookings(int $studentId, int $limit = 10): array
     {
         return $this->bookingRepository->getUpcomingForStudent($studentId, $limit);

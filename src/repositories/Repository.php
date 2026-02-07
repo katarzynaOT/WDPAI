@@ -8,7 +8,6 @@ class Repository {
 
     public function __construct()
     {
-        //$this->database = new Database();
         $this->db = Database::getConnection(); // DB Singleton
     }
 
@@ -18,5 +17,4 @@ class Repository {
         return addcslashes($value, '%_\\');
     }
 
-    //TODO: czy potrzbne metody: callback, commit, now?
 }

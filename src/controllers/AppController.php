@@ -1,7 +1,33 @@
 <?php
 
-class AppController
-{
+class AppController{
+
+    protected function renderHtml(string $viewName): void
+    {
+        $htmlPath = __DIR__ . '/../../public/views/' . $viewName . '.html';
+
+        if (file_exists($htmlPath)) {
+            header('Content-Type: text/html; charset=utf-8');
+            readfile($htmlPath);
+            exit();
+        }
+    
+        // Fallback do PHP view (jeśli będzie)
+        $phpPath = __DIR__ . '/../views/' . $viewName . '.php';
+        if (file_exists($phpPath)) {
+            $layoutPath = __DIR__ . '/../views/layout.php';
+            ob_start();
+            require $phpPath;
+            $content = ob_get_clean();
+            require $layoutPath;
+            exit();
+        }
+    
+        http_response_code(404);
+        echo "View $viewName not found at: " . htmlspecialchars($htmlPath);
+        exit();
+    }
+
     protected function render(string $view, array $params = []): void
     {
         extract($params);
@@ -43,7 +69,6 @@ class AppController
         {
             http_response_code(405); // Method Not Allowed
             $this->render('errors/405');
-            //$this->redirect('');
             exit();
         }
     }
@@ -76,5 +101,20 @@ class AppController
             ];
         }
         return null;
+    }
+
+    protected function getSanitizedPostData(): array
+    {
+        $data = [];
+        foreach ($_POST as $key => $value) {
+            if (is_array($value)) {
+                $data[$key] = array_map('trim', $value);
+                $data[$key] = array_map('htmlspecialchars', $data[$key]);
+            } else {
+                $data[$key] = trim($value);
+                $data[$key] = htmlspecialchars($data[$key], ENT_QUOTES, 'UTF-8');
+            }
+        }
+        return $data;
     }
 }

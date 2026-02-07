@@ -156,10 +156,10 @@ class ProfileService
         }
         
         if (empty($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-            throw new Exception('Nota valid email address');
+            throw new Exception('Not a valid email address');
         }
         
-        // Sprawdź czy email nie jest już używany przez innego użytkownika, ale nie podawaj informacji, ze email uzywany
+        // Sprawdz czy email nie jest już uzywany przez innego użytkownika, ale nie podawaj informacji, ze email uzywany
         $existingUser = $this->userRepository->findByEmail($data['email']);
         if ($existingUser && $existingUser->id != $currentUserId) {
             throw new Exception('Not valid email address');

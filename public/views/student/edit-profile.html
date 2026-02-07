@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Edycja profilu studenta</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="sidebar-header">Panel Studenta</div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/student/profile">Profil</a></li>
+                    <li><a href="/lessons">Lekcje</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/logout">Wyloguj</a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="dashboard-section">
+                <h2>Edycja profilu studenta</h2>
+                <form id="edit-profile-form" method="post" action="/student/profile/update">
+                    <label>Imię:<br><input type="text" name="firstName" id="firstName"></label><br><br>
+                    <label>Nazwisko:<br><input type="text" name="lastName" id="lastName"></label><br><br>
+                    <label>Email:<br><input type="email" name="email" id="email"></label><br><br>
+                    <label>Telefon:<br><input type="text" name="phone" id="phone"></label><br><br>
+                        <label>Poziom edukacji:<br><select id="education_level" name="education_level" required>
+                            <option value="podstawówka">Szkoła podstawowa</option>
+                            <option value="liceum">Liceum</option>
+                            <option value="technikum">Technikum</option>
+                            <option value="studia">Studia</option>
+                            <option value="inny">Inny</option>
+                        </select></label><br><br>
+                    <label>Cele nauki:<br><textarea name="learning_goals" id="learning_goals"></textarea></label><br><br>
+                    <button type="submit">Zapisz zmiany</button>
+                </form>
+                <div id="edit-profile-message"></div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/edit-student-profile.js"></script>
+</body>
+</html>

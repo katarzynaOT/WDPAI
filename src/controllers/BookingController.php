@@ -12,7 +12,6 @@ class BookingController extends AppController
 
     public function __construct()
     {
-        //parent::__construct();
         $this->bookingService = new BookingService();
     }
 
@@ -30,7 +29,7 @@ class BookingController extends AppController
                 throw new Exception('ID tutora jest wymagane');
             }
 
-            // Get tutor details
+            // tutor details
             $tutorService = new TutorSearchService();
             $tutor = $tutorService->getTutorById($tutorId);
 
@@ -71,7 +70,6 @@ class BookingController extends AppController
                 throw new Exception('Wszystkie pola są wymagane');
             }
 
-            // Get student profile_id from user_id
             $studentRepository = new StudentRepository();
             $studentProfile = $studentRepository->findByUserId($studentUserId);
             
@@ -96,7 +94,7 @@ class BookingController extends AppController
             );
 
             $_SESSION['flash_success'] = 'Rezerwacja została wysłana! Czekaj na potwierdzenie tutora.';
-            $this->redirect('student/bookings');
+            $this->redirect('bookings');
 
         } catch (Exception $e) {
             $tutor = new TutorSearchService();
@@ -223,11 +221,11 @@ class BookingController extends AppController
             $this->bookingService->confirmBooking($bookingId, $tutorProfileId);
 
             $_SESSION['flash_success'] = 'Rezerwacja została potwierdzona!';
-            $this->redirect('tutor/bookings');
+            $this->redirect('bookings');
 
         } catch (Exception $e) {
             $_SESSION['flash_error'] = $e->getMessage();
-            $this->redirect('tutor/bookings');
+            $this->redirect('bookings');
         }
     }
 
@@ -267,14 +265,13 @@ class BookingController extends AppController
 
             $_SESSION['flash_success'] = 'Rezerwacja została anulowana';
             
-            $redirectUrl = $userRole === 'student' ? 'student/bookings' : 'tutor/bookings';
-            $this->redirect($redirectUrl);
+            $this->redirect('bookings');
 
         } catch (Exception $e) {
             $_SESSION['flash_error'] = $e->getMessage();
             
-            $redirectUrl = $userRole === 'student' ? 'student/bookings' : 'tutor/bookings';
-            $this->redirect($redirectUrl);
+            $this->redirect('bookings');
         }
     }
+
 }

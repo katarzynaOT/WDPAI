@@ -17,7 +17,6 @@ DROP TYPE IF EXISTS
     file_type CASCADE;
 
 
---CREATE TYPE proba AS ENUM ('aa');
 CREATE TYPE user_role AS ENUM ('student', 'tutor', 'admin');
 CREATE TYPE lesson_status AS ENUM ('scheduled', 'completed', 'cancelled', 'pending');
 CREATE TYPE payment_status AS ENUM ('pending', 'paid', 'failed', 'refunded');
@@ -162,7 +161,6 @@ ON CONFLICT (name) DO NOTHING;
 INSERT INTO users (email, password, first_name, last_name, role) 
 VALUES ('test@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Jan', 'Kowalski', 'student');
 
-
 CREATE OR REPLACE FUNCTION get_account_age(user_id_param INT)
 RETURNS INTERVAL AS 
 $$
@@ -190,7 +188,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
 CREATE OR REPLACE FUNCTION update_tutor_rating_on_review()
 RETURNS TRIGGER AS 
 $$
@@ -210,6 +207,10 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE TRIGGER review_insert_update_delete
+AFTER INSERT OR UPDATE OR DELETE ON reviews
+FOR EACH ROW
+EXECUTE FUNCTION update_tutor_rating_on_review();
 
 CREATE VIEW v_tutors_full AS
 SELECT 

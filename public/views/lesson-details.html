@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szczegóły lekcji</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header" id="sidebar-role">Panel</div>
+            <nav class="sidebar-nav">
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="logout-link">Wyloguj</a>
+            </div>
+        </aside>
+        <main class="main-content" id="main-content">
+            <section class="dashboard-section">
+                <h2>Szczegóły lekcji</h2>
+                <div id="lesson-details-content">
+                    <p>ID lekcji: {{lessonId}}</p>
+                    <p>Tytuł lekcji: {{lessonTitle}}</p>
+                    <!-- detale lekcji -->
+                </div>
+                <a href="/lessons" class="back-link">Powrót do listy lekcji</a>
+            </section>
+        </main>
+    </div>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

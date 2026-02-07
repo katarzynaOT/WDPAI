@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Profil Studenta</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="sidebar-header">Panel Studenta</div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/student/profile">Profil</a></li>
+                    <li><a href="/lessons">Lekcje</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/logout">Wyloguj</a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="dashboard-section">
+                <h2>Profil Studenta</h2>
+                <div id="profile-info">
+                    <p><strong>Imię i nazwisko:</strong> <span id="student-name"></span></p>
+                    <p><strong>Email:</strong> <span id="student-email"></span></p>
+                    <p><strong>Telefon:</strong> <span id="student-phone"></span></p>
+                    <p><strong>Poziom:</strong> <span id="student-class"></span></p>
+                    <p><strong>Cele nauki:</strong> <span id="student-goals"></span></p>
+                    <button id="edit-profile-btn" style="margin-top:20px;">Edytuj profil</button>
+                </div>
+                <script>
+                document.getElementById('edit-profile-btn').addEventListener('click', function() {
+                    window.location.href = '/student/profile/edit';
+                });
+                </script>
+            </div>
+        </div>
+    </div>
+    <script src="/js/student-profile.js"></script>
+</body>
+</html>

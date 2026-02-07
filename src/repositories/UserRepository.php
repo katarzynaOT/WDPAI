@@ -108,8 +108,6 @@ class UserRepository extends Repository
         $stmt->execute(['id' => $userId]);
     }
 
-    // TODO: ChangePassword, finByrole
-
     private function mapToUser(array $row, bool $includePassword = true): User
     {
         $user = new User();

@@ -127,7 +127,7 @@ class TutorRepository extends Repository
             return null;
         }
         
-        // Rozpakuj JSON subjects
+        // unpakc JSON subjects
         $row['subjects'] = $row['subjects'] ? json_decode($row['subjects'], true) : [];
         
         return $row;

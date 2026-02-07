@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Studenta</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container dashboard student" id="dashboard-root" style="display:block;">
+        <aside class="sidebar">
+            <div class="sidebar-header" id="sidebar-role">Student</div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" id="profile-link">Profil</a></li>
+                    <li><a href="#" id="lessons-link">Lekcje</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="logout-link">Wyloguj</a>
+            </div>
+        </aside>
+        <main class="main-content" id="main-content">
+            <section id="profile-section" class="dashboard-section">
+                <h2>Profil Studenta</h2>
+                <div id="profile-content">
+                    <!-- Tutaj pojawi się profil studenta -->
+                </div>
+            </section>
+            <section id="lessons-section" class="dashboard-section" style="display:none;">
+                <h2>Moje Lekcje</h2>
+                <div id="lessons-content"> 
+                    <!-- Tutaj pojawią się lekcje studenta -->
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="/js/student-dashboard.js"></script>
+</body>
+</html>

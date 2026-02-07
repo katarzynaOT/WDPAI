@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moje Lekcje</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header" id="sidebar-role">Panel</div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" id="profile-link">Profil</a></li>
+                    <li><a href="#" id="lessons-link" class="active">Lekcje</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="logout-link">Wyloguj</a>
+            </div>
+        </aside>
+        <main class="main-content" id="main-content">
+            <section class="dashboard-section">
+                <h2>Moje Lekcje</h2>
+                <table class="lessons-table" id="lessons-table">
+                    <thead>
+                        <tr>
+                            <th>Tytuł</th>
+                            <th>Data</th>
+                            <th>Status</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Lekcje zostaną załadowane przez JS -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+    <script src="/js/lessons.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

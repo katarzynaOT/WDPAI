@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Edycja profilu tutora</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="sidebar-header">Panel Tutora</div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/tutor/profile">Profil</a></li>
+                    <li><a href="/lessons">Lekcje</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/logout">Wyloguj</a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="dashboard-section">
+                <h2>Edycja profilu tutora</h2>
+                <form id="edit-tutor-profile-form" method="post" action="/tutor/profile/update">
+                    <label>Bio:<br><textarea name="bio" id="bio" required minlength="50"></textarea></label><br><br>
+                    <label>Wykształcenie:<br><input type="text" name="education" id="education"></label><br><br>
+                    <label>Lata doświadczenia:<br><input type="number" name="experience_years" id="experience_years" min="0"></label><br><br>
+                    <label>Opis dodatkowy:<br><textarea name="description" id="description"></textarea></label><br><br>
+                    <label>Przedmioty (przytrzymaj Ctrl, aby wybrać wiele):<br>
+                        <select id="subjects" name="subjects[]" multiple required>
+                            <!-- Opcje będą ładowane przez JS -->
+                        </select>
+                    </label><br><br>
+                    <button type="submit">Zapisz zmiany</button>
+                </form>
+                <div id="edit-tutor-profile-message"></div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/edit-tutor-profile.js"></script>
+</body>
+</html>

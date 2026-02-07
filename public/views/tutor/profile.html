@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Profil Tutora</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="sidebar-header">Panel Tutora</div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/tutor/profile">Profil</a></li>
+                    <li><a href="/lessons">Lekcje</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/logout">Wyloguj</a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="dashboard-section">
+                <h2>Profil Tutora</h2>
+                <div id="profile-info">
+                    <p><strong>Imię i nazwisko:</strong> <span id="tutor-name"></span></p>
+                    <p><strong>Email:</strong> <span id="tutor-email"></span></p>
+                    <p><strong>Telefon:</strong> <span id="tutor-phone"></span></p>
+                    <p><strong>Przedmioty:</strong> <span id="tutor-subjects"></span></p>
+                    <p><strong>Opis:</strong> <span id="tutor-description"></span></p>
+                    <a href="/tutor/profile/edit" class="dashboard-btn">Edytuj profil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/tutor-profile.js"></script>
+</body>
+</html>

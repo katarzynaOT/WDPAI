@@ -59,6 +59,9 @@ class Router
             // Parametr dynamiczny (np. :id)
             if (strpos($routePart, ':') === 0) {
                 $paramName = substr($routePart, 1);
+                if ($paramName === 'id' && !is_numeric($pathPart)) {
+                    return false;
+                }
                 $params[$paramName] = $pathPart;
             } else if ($routePart !== $pathPart) {
                 return false;

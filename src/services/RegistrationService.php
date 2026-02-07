@@ -22,16 +22,16 @@ class RegistrationService
     
     public function registerStudent(array $data): User
     {
-        // 1. Walidacja
+        // Walidacja
         $this->validateRegistrationData($data);
         
-        // 2. Sprawdź czy email wolny
+        // Czy wolny email
         if ($this->userRepository->findByEmail($data['email'])) 
         {
             throw new Exception('Email already registered');
         }
         
-        // 3. TRANSACTION - nie w serviise TODO
+        // TRANSAKCJA - nie w serviise TODO
         $db = Database::getConnection();
         $db->beginTransaction();
         
@@ -46,16 +46,15 @@ class RegistrationService
                 'role' => 'student'
             ]);
             
-            // 5. Stwórz Student
+            // Student
             $this->studentRepository->create([
                 'user_id' => $userId,
-                'level' => $data['level'],
+                'level' => isset($data['student_level']) ? $data['student_level'] : null,
                 'learning_goals' => $data['learning_goals'] ?? null
             ]);
             
             $db->commit();
             
-            // 6. Zwróć Usera
             return $this->userRepository->findById($userId);
             
         } catch (Exception $e) {
@@ -66,40 +65,39 @@ class RegistrationService
     
     public function registerTutor(array $data): User
     {
-        // 1. Walidacja
+        // Walidacja
         $this->validateRegistrationData($data);
         
-        // 2. Sprawdź czy email wolny
+        // Czy wolny email
         if ($this->userRepository->findByEmail($data['email'])) 
         {
             throw new Exception('Email already registered');
         }
         
-        // 3. TRANSACTION
+        // TRANSAKCJA 
         $db = Database::getConnection();
         $db->beginTransaction();
         
         try {
-            // 4. Stwórz Usera
             $userId = $this->userRepository->create([
                 'email' => $data['email'],
                 'password' => password_hash($data['password'], PASSWORD_BCRYPT),
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
                 'phone' => $data['phone'] ?? null,
-                'role' => 'tutor'
+                'role' => 'tutor',
+                'hourly_rate' => isset($data['hourly_rate']) ? $data['hourly_rate'] : null
             ]);
             
-            // 5. Stwórz Tutor
             $this->tutorRepository->create([
                 'user_id' => $userId,
-                'experience_years' => $data['experience_years'],
+                'hourly_rate' => isset($data['hourly_rate']) ? $data['hourly_rate'] : null,
+                'experience_years' => isset($data['experience_years']) ? $data['experience_years'] : null,
                 'bio' => $data['bio'] ?? null
             ]);
             
             $db->commit();
             
-            // 6. Zwróć Usera
             return $this->userRepository->findById($userId);
             
         } catch (Exception $e) {
@@ -129,6 +127,9 @@ class RegistrationService
             throw new Exception('Hasło musi zawierać przynajmniej jedną cyfrę');
         }
         
+        if (!isset($data['confirm_password'])) {
+            throw new Exception('Potwierdzenie hasła jest wymagane');
+        }
         if ($data['password'] !== $data['confirm_password']) {
             throw new Exception('Hasła nie są identyczne');
         }

@@ -6,39 +6,50 @@ require_once __DIR__ . '/../repositories/UserRepository.php';
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/AppController.php';
 
-class AuthorizationController extends AppController 
-{
+class AuthorizationController extends AppController {
     private LoginService $loginService;
     private RegistrationService $registrationService;
-    
+
     public function __construct()
     {
-        //parent::__construct();
-
-        // Same serwisy, bez REPO (bo serwisy tworza wlasne)
         $this->loginService = new LoginService(new UserRepository());
         $this->registrationService = new RegistrationService();
     }
 
     public function showRegister(): void 
     {
-        $this->render('auth/register');
-    }
-
-    public function showStudentRegister(): void 
-    {
-        $this->render('auth/register-student');
-    }
-
-    public function showTutorRegister(): void 
-    {
-        $this->render('auth/register-tutor');
+        $this->renderHtml('register');
     }
 
     public function showLogin(): void 
     {
-        $this->render('auth/login');
+        $this->renderHtml('login');
     }
+
+    public function register(): void
+    {
+        $this->requirePost();
+        $formData = $this->getSanitizedPostData();
+        try {
+            $role = $formData['role'] ?? null;
+            if ($role === 'student') {
+                $user = $this->registrationService->registerStudent($formData);
+            } else if ($role === 'tutor') {
+                $user = $this->registrationService->registerTutor($formData);
+            } else {
+                throw new Exception('Nie wybrano roli');
+            }
+            session_regenerate_id(true);
+            $this->setUserSession($user);
+            $this->redirectToDashboard($user->role);
+        } catch (Exception $e) {
+            $this->renderHtml('register', [
+                'error' => $e->getMessage(),
+                'formData' => $formData
+            ]);
+        }
+    }
+    
 
     public function registerStudent(): void
     {
@@ -56,9 +67,9 @@ class AuthorizationController extends AppController
 
             // Przekieruj do dashboardu
             $this->redirectToDashboard($user->role);
-        } catch (Exception $e) { // TODO: lepszy Exception?
+        } catch (Exception $e) { 
             // Zachowaj wpisane dane w formularzu
-            $this->render('auth/register-student', [
+            $this->renderHtml('register', [
                 'error' => $e->getMessage(),
                 'formData' => $formData
             ]);
@@ -68,7 +79,6 @@ class AuthorizationController extends AppController
     public function registerTutor() : void
     {
         $this->requirePost();
-        
         $formData = $this->getSanitizedPostData();
         
         try {
@@ -77,10 +87,9 @@ class AuthorizationController extends AppController
             session_regenerate_id(true);
             $this->setUserSession($user);
             
-            // Przekieruj do dashboardu
             $this->redirectToDashboard($user->role);
         } catch (Exception $e) {
-            $this->render('auth/register-tutor', [
+            $this->renderHtml('register', [
                 'error' => $e->getMessage(),
                 'formData' => $formData
             ]);
@@ -91,16 +100,15 @@ class AuthorizationController extends AppController
     {
         $this->requirePost();
 
-        // Sprawdź czy dane POST istnieją/są przesłane
         if (empty($_POST['email']) || empty($_POST['password'])) 
         {
-            $this->render('auth/login', ['error' => 'All fields are required (email & password)']);
+            $this->renderHtml('login', ['error' => 'All fields are required (email & password)']);
             return;
         }
 
         try {
             $user = $this->loginService->login(
-                $_POST['email'], //TODO: trim?
+                $_POST['email'], 
                 $_POST['password']
             );
 
@@ -108,7 +116,7 @@ class AuthorizationController extends AppController
             error_log("User logged in: " . $user->email . " Role: " . $user->role);
 
             // REGENERACJA ID SESJI PRZED USTAWIENIEM DANYCH
-            session_regenerate_id(true);  // Usuwa starą sesję
+            session_regenerate_id(true);  // Usun starą sesję
 
             // Ustaw sesję
             $this->setUserSession($user);
@@ -123,20 +131,7 @@ class AuthorizationController extends AppController
 
         } catch (Exception $e) {
             $error = $e->getMessage();
-            $this->render('auth/login', ['error' => $error]);
-
-            //TODO: sprawdzic czy ponizej ok?
-            /*
-            // Generic error message dla bezpieczeństwa
-            $error = 'Nieprawidłowy email lub hasło';
-            
-            // Logowanie błędu (szczegóły tylko w logach)
-            error_log("Login failed for email: $email - " . $e->getMessage());
-            
-            //$this->render('auth/login', [
-                'error' => $error,
-                'preservedEmail' => htmlspecialchars($email) // Zachowaj email w formularzu
-            ]);*/
+            $this->renderHtml('login', ['error' => $error]);
         }
     }
 
@@ -148,7 +143,7 @@ class AuthorizationController extends AppController
         }
 
         $this->destroySession(); //session_destroy(); 
-        $this->redirect('');
+        $this->redirect('login');
     }
 
 
@@ -201,35 +196,13 @@ class AuthorizationController extends AppController
     {
         switch ($role) {
             case 'student':
-            case 'tutor':
-                $this->redirect('dashboard');
+                $this->redirect('student/dashboard');
                 break;
-            case 'admin':
-                $this->redirect('admin/dashboard');
+            case 'tutor':
+                $this->redirect('tutor/dashboard');
                 break;
             default:
                 $this->redirect(''); // fallback
         }
     }
-
-    // TODO: potrzebne?
-    private function getSanitizedPostData(): array
-    {
-        $data = [];
-        
-        foreach ($_POST as $key => $value) {
-            if (is_array($value)) {
-                // Dla checkboxów (np. subjects[])
-                $data[$key] = array_map('trim', $value);
-                $data[$key] = array_map('htmlspecialchars', $data[$key]);
-            } else {
-                $data[$key] = trim($value);
-                $data[$key] = htmlspecialchars($data[$key], ENT_QUOTES, 'UTF-8');
-            }
-        }
-        
-        return $data;
-    }
-
-    // TODO: CSRF w formularzu
 }

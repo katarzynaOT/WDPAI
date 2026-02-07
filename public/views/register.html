@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejestracja</title>
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body>
+    <div class="auth-container">
+        <form class="auth-form" action="/register" method="post">
+            <h2>Rejestracja</h2>
+
+            <div class="input-group role-group">
+                <label>Wybierz rolę:</label>
+                    <div class="role-selection">
+                        <label>
+                            <input type="radio" name="role" value="student" checked>
+                            Jestem studentem
+                        </label>
+                        <label>
+                            <input type="radio" name="role" value="tutor">
+                            Jestem korepetytorem
+                        </label>
+                </div>
+            </div>
+
+            <div class="common-fields">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="common-fields">
+                <label for="first_name">Imię</label>
+                <input type="text" id="first_name" name="first_name" required>
+            </div>
+            <div class="common-fields">
+                <label for="last_name">Nazwisko</label>
+                <input type="text" id="last_name" name="last_name" required>
+            </div>
+            <div class="common-fields">
+                <label for="phone">Telefon</label>
+                <input type="text" id="phone" name="phone">
+            </div>
+            <div class="common-fields">
+                <label for="password">Hasło</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="common-fields">
+                <label for="confirm-password">Powtórz hasło</label>
+                <input type="password" id="confirm-password" name="confirm_password" required>
+            </div>
+
+             <!-- Pola specyficzne dla studenta (domyślnie widoczne) -->
+    <div id="student-fields" class="role-specific">
+        <h3>Dane studenta</h3>
+        <label>Poziom edukacji:<br>
+            <select name="student_level" required>
+                <option value="podstawówka">Szkoła podstawowa</option>
+                <option value="liceum">Liceum</option>
+                <option value="technikum">Technikum</option>
+                <option value="studia">Studia</option>
+                <option value="inny">Inny</option>
+            </select>
+        </label><br><br>
+        <textarea name="learning_goals" placeholder="Cele naukowe"></textarea>
+    </div>
+    
+    <!-- Pola specyficzne dla tutora (domyślnie ukryte) -->
+    <div id="tutor-fields" class="role-specific" style="display: none;">
+        <h3>Dane korepetytora</h3>
+        <input type="number" name="hourly_rate" placeholder="Stawka godzinowa (PLN)" required>
+        <textarea name="bio" placeholder="Krótki opis o sobie"></textarea>
+        <input type="number" name="experience_years" placeholder="Lata doświadczenia" min="0" required>
+    </div>
+
+            <button type="submit" class="auth-btn">Zarejestruj się</button>
+
+        </form>
+    </div>
+    <script src="/js/register.js"></script>
+</body>
+</html>

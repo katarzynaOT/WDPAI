@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Tutora</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container dashboard tutor" id="dashboard-root-tutor" style="display:block;">
+        <aside class="sidebar">
+            <div class="sidebar-header" id="sidebar-role-tutor">Tutor</div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" id="profile-link-tutor">Profil</a></li>
+                    <li><a href="#" id="lessons-link-tutor">Lekcje</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="logout-link-tutor">Wyloguj</a>
+            </div>
+        </aside>
+        <main class="main-content" id="main-content-tutor">
+            <section id="profile-section-tutor" class="dashboard-section">
+                <h2>Profil Tutora</h2>
+                <div id="profile-content-tutor">
+                    <!-- Tutaj pojawi się profil tutora -->
+                </div>
+            </section>
+            <section id="lessons-section-tutor" class="dashboard-section" style="display:none;">
+                <h2>Moje Lekcje</h2>
+                <div id="lessons-content-tutor">
+                    <!-- Tutaj pojawią się lekcje tutora -->
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="/js/tutor-dashboard.js"></script>
+</body>
+</html>

@@ -7,7 +7,7 @@ services:
     ports:
       - "8000:80"
     volumes: #wolumeny - mapowanie katalogów z hosta do kontenera 
-      - .:/app
+      - .:/app/
     depends_on: #kontener nginx/web uruchomi się po php
       - php
     env_file:

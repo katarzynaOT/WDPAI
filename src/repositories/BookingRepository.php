@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/Repository.php';
+require_once 'Repository.php';
 require_once __DIR__ . '/../models/Booking.php';
 
 class BookingRepository extends Repository

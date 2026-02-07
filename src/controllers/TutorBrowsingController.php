@@ -9,7 +9,6 @@ class TutorBrowsingController extends AppController
     
     public function __construct()
     {
-        //parent::__construct();
         $this->tutorSearchService = new TutorSearchService();
     }
 
@@ -20,14 +19,13 @@ class TutorBrowsingController extends AppController
             return;
         }
 
-        // Only students can browse tutors
         if ($_SESSION['user_role'] !== 'student') {
             $this->redirect('dashboard');
             return;
         }
 
         try {
-            // Get filter parameters
+            // filter param
             $filters = [];
             if (isset($_GET['subject_id']) && !empty($_GET['subject_id'])) {
                 $filters['subject_id'] = $_GET['subject_id'];
@@ -36,13 +34,11 @@ class TutorBrowsingController extends AppController
                 $filters['min_rating'] = $_GET['min_rating'];
             }
 
-            // Get filtered tutors
+            // filtered tutors
             $tutors = $this->tutorSearchService->filterTutors($filters);
             
-            // Get all subjects for filter
             $subjects = $this->tutorSearchService->getAllSubjects();
             
-            // Get selected filter values for form
             $selectedSubject = $_GET['subject_id'] ?? null;
             $selectedRating = $_GET['min_rating'] ?? null;
 
@@ -72,12 +68,12 @@ class TutorBrowsingController extends AppController
         }
 
         if ($_SESSION['user_role'] !== 'student') {
-            $this->redirect('dashboard'); // TODO: lub inna strona
+            $this->redirect('student/dashboard');
             return;
         }
 
         try {
-            // Retrieve tutor profile with details
+            // tutor profile details
             $profile = $this->tutorSearchService->getTutorById($tutorId);
             
             if (!$profile) {

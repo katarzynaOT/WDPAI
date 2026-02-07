@@ -32,7 +32,7 @@ class TutorSearchService
     {
         $allTutors = $this->getAllTutors();
         
-        // Filter by subject if provided
+        // Filter by subject 
         if (!empty($filters['subject_id'])) {
             $subjectId = (int)$filters['subject_id'];
             $allTutors = array_filter($allTutors, function($tutor) use ($subjectId) {
@@ -45,7 +45,7 @@ class TutorSearchService
             });
         }
         
-        // Filter by rating if provided
+        // Filter by rating 
         if (!empty($filters['min_rating'])) {
             $minRating = (float)$filters['min_rating'];
             $allTutors = array_filter($allTutors, function($tutor) use ($minRating) {
@@ -53,7 +53,7 @@ class TutorSearchService
             });
         }
         
-        // Sort by rating (highest first)
+        // Sort by rating
         usort($allTutors, function($a, $b) {
             $ratingA = $a['rating'] ?? 0;
             $ratingB = $b['rating'] ?? 0;
@@ -62,6 +62,8 @@ class TutorSearchService
         
         return $allTutors;
     }
+
+    
     public function getTutorById(int $tutorId): ?array
     {
         $tutors = $this->getAllTutors();

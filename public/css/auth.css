@@ -1,0 +1,100 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #4a90e2 0%, #50e3c2 100%);
+    min-height: 100vh;
+}
+.auth-container, .login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.auth-form, .login-form {
+    background: rgba(255,255,255,0.95);
+    padding: 2rem 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(74,144,226,0.15);
+    width: 100%;
+    max-width: 350px;
+    border-top: 4px solid #4a90e2;
+}
+.auth-form h2, .login-form h2 {
+    margin-bottom: 1.5rem;
+    color: #4a90e2;
+    font-size: 1.7rem;
+    text-align: center;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+.input-group {
+    margin-bottom: 1.2rem;
+}
+.input-group label {
+    color: #357ab8;
+    font-size: 1rem;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 0.4rem;
+}
+.input-group input {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: #f5f6fa;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba(74,144,226,0.07);
+}
+.input-group input:focus {
+    border-color: #50e3c2;
+    outline: none;
+    box-shadow: 0 0 0 2px #50e3c233;
+}
+.auth-btn, .login-btn {
+    width: 100%;
+    padding: 0.8rem;
+    background: linear-gradient(90deg, #4a90e2 0%, #357ab8 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:  0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(74,144,226,0.12);
+}
+.auth-btn:hover, .login-btn:hover {
+    background: linear-gradient(90deg, #357ab8 0%, #4a90e2 100%);
+    box-shadow: 0 4px 16px rgba(74,144,226,0.18);
+}
+.register-btn {
+    width: 80%;
+    padding: 0.5rem;
+    background: #e6eef7;
+    color: #357ab8;
+    border: 1px solid #b3cbe2;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: none;
+    margin: 10px auto 0 auto;
+    display: block;
+    transition: 0.2s, color 0.2s, border-color 0.2s;
+}
+.register-btn:hover {
+    background: #d2e3f3;
+    color: #235a8b;
+    border-color: #7193bb;
+    box-shadow: none;
+}
+@media (min-width: 600px) {
+    .auth-form, .login-form {
+        padding: 2.5rem 2rem;
+        max-width: 400px;
+    }
+}
